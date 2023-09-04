@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 522px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  display: flex;
+  gap: 12px;
+}
+
+.text {
+  text-align: left;
+  padding: 4px 16px;
+}
