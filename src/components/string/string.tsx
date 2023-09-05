@@ -12,6 +12,7 @@ export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [elementStates, setElementStates] = useState<ElementStates[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [originalInputValue, setOriginalInputValue] = useState("");
 
   const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const newInputValue = evt.target.value;
@@ -35,6 +36,8 @@ export const StringComponent: React.FC = () => {
     await reverseString(newLetters, elementStates, setElementStates);
     setLetters([...newLetters]);
 
+    setOriginalInputValue(inputValue);
+
     setIsLoading(false);
   };
 
@@ -51,7 +54,7 @@ export const StringComponent: React.FC = () => {
           />
           <Button
             text="Развернуть"
-            disabled={!inputValue}
+            disabled={!inputValue || inputValue === originalInputValue}
             onClick={onButtonClick}
             isLoader={isLoading}
           />
