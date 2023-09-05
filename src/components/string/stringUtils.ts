@@ -31,5 +31,6 @@ export const reverseString = async (
   if (array.length % 2 !== 0) {
     tempStates[Math.floor(array.length / 2)] = ElementStates.Modified;
   }
+
   setElementStates([...tempStates]);
 };

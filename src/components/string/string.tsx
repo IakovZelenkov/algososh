@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import s from "./string.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
-import s from "./string.module.css";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { reverseString } from "./stringUtils";
@@ -44,21 +44,19 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <div className={s.container}>
-        <div className={s.wrapper}>
-          <Input
-            onChange={onChange}
-            maxLength={11}
-            isLimitText={true}
-            value={inputValue}
-            isLoader={isLoading}
-          />
-          <Button
-            text="Развернуть"
-            disabled={!inputValue || inputValue === originalInputValue}
-            onClick={onButtonClick}
-            isLoader={isLoading}
-          />
-        </div>
+        <Input
+          onChange={onChange}
+          maxLength={11}
+          isLimitText={true}
+          value={inputValue}
+          isLoader={isLoading}
+        />
+        <Button
+          text="Развернуть"
+          disabled={!inputValue || inputValue === originalInputValue}
+          onClick={onButtonClick}
+          isLoader={isLoading}
+        />
       </div>
       <div className={s.letters}>
         {letters.map((letter, index) => (
