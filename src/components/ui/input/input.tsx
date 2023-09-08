@@ -14,6 +14,7 @@ export const Input: React.FC<InputProps> = ({
   type = "text",
   maxLength,
   max,
+  min,
   isLoader = false,
   disabled,
   isLimitText = false,
@@ -31,6 +32,7 @@ export const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         type={type}
         maxLength={maxLength}
+        min={min}
         max={max}
         disabled={isLoader || disabled}
         {...rest}

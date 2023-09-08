@@ -57,7 +57,9 @@ export const FibonacciPage: React.FC = () => {
         <Button
           text="Рассчитать"
           disabled={
-            !inputValue || parseInt(inputValue, 10) > MAX_FIBONACCI_LIMIT
+            !inputValue ||
+            parseInt(inputValue, 10) > MAX_FIBONACCI_LIMIT ||
+            parseInt(inputValue, 10) <= 0
           }
           onClick={onButtonClick}
           isLoader={isLoading}
