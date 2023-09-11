@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  width: 892px;
+  flex-direction: column;
+  gap: 48px;
+  margin: 48px auto;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  display: flex;
+  margin-right: 80px;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+  gap: 64px 16px;
+  margin-top: 48px;
+  max-width: 944px;
+  flex-wrap: wrap;
+}

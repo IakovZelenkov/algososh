@@ -7,27 +7,27 @@ interface IStack<T> {
 }
 
 export class Stack<T> implements IStack<T> {
-  private container: T[] = [];
+  private _container: T[] = [];
 
   push = (item: T) => {
-    this.container.push(item);
+    this._container.push(item);
   };
 
   pop = () => {
-    if (this.container.length === 0) return null;
-    return this.container.pop();
+    if (this._container.length === 0) return null;
+    return this._container.pop();
   };
 
   peek = (): T | null => {
-    if (this.container.length === 0) return null;
-    return this.container[this.container.length - 1];
+    if (this._container.length === 0) return null;
+    return this._container[this._container.length - 1];
   };
 
   clear = () => {
-    this.container = [];
+    this._container = [];
   };
 
   toArray = (): T[] => {
-    return [...this.container];
+    return [...this._container];
   };
 }

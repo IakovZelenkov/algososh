@@ -6,8 +6,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { fib } from "./fibonacciUtils";
-
-const MAX_FIBONACCI_LIMIT = 19;
+import { MAX_FIBONACCI_LIMIT } from "../../constants/constants";
 
 export const FibonacciPage: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
