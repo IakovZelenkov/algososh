@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  width: 952px;
+  flex-direction: column;
+  gap: 90px;
+  margin: 48px auto;
+}
+
+.menu {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.wrapper {
+  display: flex;
+  min-width: 952px;
+  gap: 12px;
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+  gap: 64px 16px;
+  margin-top: 48px;
+  max-width: 944px;
+  flex-wrap: wrap;
+}
+
+.input {
+  max-width: 172px;
+}
+
+.flexGrow {
+  flex-grow: 1;
+}
