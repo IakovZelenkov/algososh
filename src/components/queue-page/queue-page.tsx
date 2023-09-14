@@ -9,7 +9,7 @@ import { Queue } from "./queueUtils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { MAX_QUEUE_LENGTH } from "../../constants/constants";
 
-enum Operation {
+enum Operations {
   Enqueue = "enqueue",
   Dequeue = "dequeue",
   Clear = "clear",
@@ -19,8 +19,8 @@ export const QueuePage: React.FC = () => {
   const queue = useRef(new Queue<string>(MAX_QUEUE_LENGTH));
   const [inputValue, setInputValue] = useState("");
   const [isChanging, setIsChanging] = useState(false);
-  const [lastOperation, setLastOperation] = useState<Operation>(
-    Operation.Clear
+  const [lastOperation, setLastOperation] = useState<Operations>(
+    Operations.Clear
   );
   const [activeLoadingButton, setActiveLoadingButton] = useState<
     string | null
@@ -34,7 +34,7 @@ export const QueuePage: React.FC = () => {
     setInputValue(newInputValue);
   };
 
-  const onEnqueueButtonClick = async (operation: Operation) => {
+  const onEnqueueButtonClick = async (operation: Operations) => {
     setActiveLoadingButton("Добавить");
     setLastOperation(operation);
     setIsChanging(true);
@@ -52,7 +52,7 @@ export const QueuePage: React.FC = () => {
     setActiveLoadingButton(null);
   };
 
-  const onDequeueButtonClick = async (operation: Operation) => {
+  const onDequeueButtonClick = async (operation: Operations) => {
     setActiveLoadingButton("Удалить");
     setIsChanging(true);
     setLastOperation(operation);
@@ -70,7 +70,7 @@ export const QueuePage: React.FC = () => {
     setActiveLoadingButton(null);
   };
 
-  const onClearButtonClick = (operation: Operation) => {
+  const onClearButtonClick = (operation: Operations) => {
     setLastOperation(operation);
     queue.current.clear();
     setQueueItems([...queue.current.toArray()]);
@@ -90,7 +90,7 @@ export const QueuePage: React.FC = () => {
             <Button
               text="Добавить"
               onClick={() => {
-                onEnqueueButtonClick(Operation.Enqueue);
+                onEnqueueButtonClick(Operations.Enqueue);
               }}
               isLoader={activeLoadingButton === "Добавить"}
               disabled={
@@ -103,7 +103,7 @@ export const QueuePage: React.FC = () => {
             <Button
               text="Удалить"
               onClick={() => {
-                onDequeueButtonClick(Operation.Dequeue);
+                onDequeueButtonClick(Operations.Dequeue);
               }}
               isLoader={activeLoadingButton === "Удалить"}
               disabled={queue.current.isEmpty()}
@@ -112,9 +112,9 @@ export const QueuePage: React.FC = () => {
           <Button
             text="Очистить"
             onClick={() => {
-              onClearButtonClick(Operation.Clear);
+              onClearButtonClick(Operations.Clear);
             }}
-            disabled={lastOperation === Operation.Clear}
+            disabled={lastOperation === Operations.Clear}
           />
         </div>
         <div className={s.items}>
@@ -129,16 +129,16 @@ export const QueuePage: React.FC = () => {
                 letter={item || ""}
                 state={
                   isChanging &&
-                  ((lastOperation === Operation.Enqueue && isTail) ||
-                    (lastOperation === Operation.Dequeue && isHead))
+                  ((lastOperation === Operations.Enqueue && isTail) ||
+                    (lastOperation === Operations.Dequeue && isHead))
                     ? ElementStates.Changing
                     : ElementStates.Default
                 }
                 head={
-                  isHead && lastOperation !== Operation.Clear ? "head" : ""
+                  isHead && lastOperation !== Operations.Clear ? "head" : ""
                 }
                 tail={
-                  isTail && lastOperation !== Operation.Clear ? "tail" : ""
+                  isTail && lastOperation !== Operations.Clear ? "tail" : ""
                 }
               />
             );
