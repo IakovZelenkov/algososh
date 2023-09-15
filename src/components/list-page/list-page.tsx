@@ -8,8 +8,7 @@ import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { LinkedList } from "./listUtils";
 import { Operations, Positions } from "../../types/list-types";
-
-const INITIAL_LIST = ["0", "34", "8", "1"];
+import { INITIAL_LIST } from "../../constants/constants";
 
 export const ListPage: React.FC = () => {
   const linkedList = useRef(new LinkedList<string>());
