@@ -4,25 +4,10 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
-// import { ElementStates } from "../../types/element-states";
+import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { LinkedList } from "./listUtils";
-
-export enum ElementStates {
-  Default = "default",
-  Changing = "changing",
-  Modified = "modified",
-}
-
-enum Operations {
-  Default = "default",
-  AddToHead = "addToHead",
-  AddToTail = "addToTail",
-  RemoveFromHead = "removeFromHead",
-  RemoveFromTail = "removeFromTail",
-  InsertAtIndex = "insertAtIndex",
-  RemoveAtIndex = "removeAtIndex",
-}
+import { Operations, Positions } from "../../types/list-types";
 
 const INITIAL_LIST = ["0", "34", "8", "1"];
 
@@ -30,13 +15,24 @@ export const ListPage: React.FC = () => {
   const linkedList = useRef(new LinkedList<string>());
   const [inputValue, setInputValue] = useState("");
   const [inputIndexValue, setInputIndexValue] = useState("");
-  const [isChanging, setIsChanging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [elementStates, setElementStates] = useState<ElementStates[]>([]);
+  const [listItems, setListItems] = useState<string[]>(INITIAL_LIST);
+  const [currentElement, setCurrentElement] = useState("");
   const [lastOperation, setLastOperation] = useState<Operations>(
     Operations.Default
   );
-  const [listItems, setListItems] = useState<string[]>(INITIAL_LIST);
+  const [modifiedIndex, setModifiedIndex] = useState<number | undefined>(
+    undefined
+  );
+  const [changingIndex, setChangingIndex] = useState<number | undefined>(
+    undefined
+  );
+  const [smallCircleIndex, setSmallCircleIndex] = useState<number | undefined>(
+    undefined
+  );
+  const [smallCirclePosition, setSmallCirclePosition] = useState<
+    Positions | undefined
+  >(undefined);
 
   useEffect(() => {
     listItems.forEach((item) => linkedList.current.append(item));
@@ -61,72 +57,165 @@ export const ListPage: React.FC = () => {
     setListItems(linkedList.current.toArray());
   };
 
-  const addToHead = async () => {
+  const commonLogic = async (
+    listActions: () => void,
+    operation: Operations,
+    smallCirclePosition: Positions,
+    smallCircleIndex: number,
+    modifiedIndex?: number
+  ) => {
     setIsLoading(true);
-    setLastOperation(Operations.AddToHead);
+    setLastOperation(operation);
 
-    linkedList.current.prepend(inputValue);
+    if (
+      operation === Operations.RemoveFromHead ||
+      operation === Operations.RemoveFromTail
+    ) {
+      setListItems((prev) =>
+        operation === Operations.RemoveFromHead
+          ? ["", ...prev.slice(1)]
+          : [...prev.slice(0, listItems.length - 1), ""]
+      );
+    }
+
+    listActions();
+
+    setSmallCirclePosition(smallCirclePosition);
+    setSmallCircleIndex(smallCircleIndex);
+
+    await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+    setSmallCircleIndex(undefined);
+
+    setModifiedIndex(modifiedIndex);
+
     updateListItems();
+
+    await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+    setModifiedIndex(undefined);
+    setSmallCirclePosition(undefined);
 
     setIsLoading(false);
     setLastOperation(Operations.Default);
+  };
+
+  const commonIndexLogic = async (
+    actions: () => void,
+    index: number,
+    operation: Operations,
+    smallCirclePosition: Positions
+  ) => {
+    setIsLoading(true);
+    setLastOperation(operation);
+    setSmallCirclePosition(smallCirclePosition);
+
+    let currentIndex = 0;
+    while (currentIndex <= index) {
+      setChangingIndex(currentIndex - 1);
+      if (operation === Operations.InsertAtIndex) {
+        setSmallCircleIndex(currentIndex);
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+      currentIndex++;
+    }
+    if (operation === Operations.RemoveAtIndex) {
+      setSmallCircleIndex(index);
+      setListItems((prev) => prev.map((item, i) => (i === index ? "" : item)));
+    }
+    await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+    actions();
+    setSmallCircleIndex(undefined);
+    setModifiedIndex(index);
+    updateListItems();
+
+    await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+    setModifiedIndex(undefined);
+    setSmallCirclePosition(undefined);
+    setChangingIndex(undefined);
+
+    setIsLoading(false);
+    setLastOperation(Operations.Default);
+  };
+
+  const addToHead = async () => {
+    setCurrentElement(inputValue);
+    await commonLogic(
+      () => {
+        linkedList.current.prepend(inputValue);
+      },
+      Operations.AddToHead,
+      Positions.Top,
+      0,
+      0
+    );
+    setInputValue("");
   };
 
   const addToTail = async () => {
-    setIsLoading(true);
-    setLastOperation(Operations.AddToTail);
-
-    linkedList.current.append(inputValue);
-    updateListItems();
-
-    setIsLoading(false);
-    setLastOperation(Operations.Default);
+    setCurrentElement(inputValue);
+    commonLogic(
+      () => {
+        linkedList.current.append(inputValue);
+      },
+      Operations.AddToTail,
+      Positions.Top,
+      listItems.length - 1,
+      listItems.length
+    );
+    setInputValue("");
   };
 
   const removeFromHead = async () => {
-    setIsLoading(true);
-    setLastOperation(Operations.RemoveFromHead);
-
-    linkedList.current.removeHead();
-    updateListItems();
-
-    setIsLoading(false);
-    setLastOperation(Operations.Default);
+    setCurrentElement(listItems[0]);
+    commonLogic(
+      () => {
+        linkedList.current.removeHead();
+      },
+      Operations.RemoveFromHead,
+      Positions.Bottom,
+      0
+    );
   };
 
   const removeFromTail = async () => {
-    setIsLoading(true);
-    setLastOperation(Operations.RemoveFromTail);
-
-    linkedList.current.removeTail();
-    updateListItems();
-
-    setIsLoading(false);
-    setLastOperation(Operations.Default);
+    setCurrentElement(listItems[listItems.length - 1]);
+    commonLogic(
+      () => {
+        linkedList.current.removeTail();
+      },
+      Operations.RemoveFromTail,
+      Positions.Bottom,
+      listItems.length - 1
+    );
   };
 
   const insertAtIndex = async () => {
-    setIsLoading(true);
-    setLastOperation(Operations.InsertAtIndex);
-
     const index = parseInt(inputIndexValue, 10);
-    linkedList.current.insertAtIndex(inputValue, index);
-    updateListItems();
-
-    setIsLoading(false);
-    setLastOperation(Operations.Default);
+    setCurrentElement(inputValue);
+    await commonIndexLogic(
+      () => {
+        linkedList.current.insertAtIndex(inputValue, index);
+      },
+      index,
+      Operations.InsertAtIndex,
+      Positions.Top
+    );
+    setInputValue("");
+    setInputIndexValue("");
   };
 
   const removeAtIndex = async () => {
-    setIsLoading(true);
-    setLastOperation(Operations.RemoveAtIndex);
-
     const index = parseInt(inputIndexValue, 10);
-    linkedList.current.removeAtIndex(index);
-    updateListItems();
-
-    setIsLoading(false);
-    setLastOperation(Operations.Default);
+    setCurrentElement(listItems[index]);
+    await commonIndexLogic(
+      () => {
+        linkedList.current.removeAtIndex(index);
+      },
+      index,
+      Operations.RemoveAtIndex,
+      Positions.Bottom
+    );
+    setInputIndexValue("");
   };
 
   return (
@@ -141,6 +230,7 @@ export const ListPage: React.FC = () => {
               isLimitText={true}
               maxLength={4}
               value={inputValue}
+              disabled={isLoading}
             />
             <Button
               extraClass={s.flexGrow}
@@ -171,7 +261,7 @@ export const ListPage: React.FC = () => {
               }
               disabled={
                 (isLoading && lastOperation !== Operations.RemoveFromHead) ||
-                linkedList.current.getSize() === 0
+                listItems.length === 0
               }
             />
             <Button
@@ -183,7 +273,7 @@ export const ListPage: React.FC = () => {
               }
               disabled={
                 (isLoading && lastOperation !== Operations.RemoveFromTail) ||
-                linkedList.current.getSize() === 0
+                listItems.length === 0
               }
             />
           </div>
@@ -194,6 +284,7 @@ export const ListPage: React.FC = () => {
               type="number"
               onChange={onIndexChange}
               value={inputIndexValue}
+              disabled={isLoading}
             />
             <Button
               extraClass={s.flexGrow}
@@ -217,8 +308,7 @@ export const ListPage: React.FC = () => {
               }
               disabled={
                 (isLoading && lastOperation !== Operations.RemoveAtIndex) ||
-                !checkIsValidIndex() ||
-                !inputValue
+                !checkIsValidIndex()
               }
             />
           </div>
@@ -226,14 +316,47 @@ export const ListPage: React.FC = () => {
       </div>
       <div className={s.items}>
         {listItems.map((item, index) => {
+          const currentState =
+            modifiedIndex === index
+              ? ElementStates.Modified
+              : changingIndex! >= index
+              ? ElementStates.Changing
+              : ElementStates.Default;
+
           return (
             <Circle
               key={index}
               index={index}
               letter={item || ""}
-              state={elementStates[index]}
-              // head={head}
-              // tail={tail}
+              state={currentState}
+              head={
+                smallCirclePosition === Positions.Top &&
+                smallCircleIndex === index ? (
+                  <Circle
+                    letter={currentElement}
+                    state={ElementStates.Changing}
+                    isSmall
+                  />
+                ) : index === 0 ? (
+                  "head"
+                ) : (
+                  ""
+                )
+              }
+              tail={
+                smallCirclePosition === Positions.Bottom &&
+                smallCircleIndex === index ? (
+                  <Circle
+                    letter={currentElement}
+                    state={ElementStates.Changing}
+                    isSmall
+                  />
+                ) : index === listItems.length - 1 ? (
+                  "tail"
+                ) : (
+                  ""
+                )
+              }
             />
           );
         })}

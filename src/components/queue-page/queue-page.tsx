@@ -8,12 +8,7 @@ import { ElementStates } from "../../types/element-states";
 import { Queue } from "./queueUtils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { MAX_QUEUE_LENGTH } from "../../constants/constants";
-
-enum Operations {
-  Enqueue = "enqueue",
-  Dequeue = "dequeue",
-  Clear = "clear",
-}
+import { Operations } from "../../types/queue-types";
 
 export const QueuePage: React.FC = () => {
   const queue = useRef(new Queue<string>(MAX_QUEUE_LENGTH));
