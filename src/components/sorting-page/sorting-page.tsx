@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import s from "./sorting-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from "../ui/radio-input/radio-input";
@@ -6,6 +6,7 @@ import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
+
 import {
   randomArr,
   bubbleSort,
@@ -56,6 +57,10 @@ export const SortingPage: React.FC = () => {
       new Array(randomArray.length).fill(ElementStates.Default)
     );
   };
+
+  useEffect(() => {
+    handleNewArray();
+  }, []);
 
   return (
     <SolutionLayout title="Сортировка массива">
