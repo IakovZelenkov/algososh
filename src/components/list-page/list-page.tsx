@@ -9,6 +9,7 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { LinkedList } from "./listUtils";
 import { Operations, Positions } from "../../types/list-types";
 import { INITIAL_LIST } from "../../constants/constants";
+import { ArrowIcon } from "../ui/icons/arrow-icon";
 
 export const ListPage: React.FC = () => {
   const linkedList = useRef(new LinkedList<string>());
@@ -42,17 +43,17 @@ export const ListPage: React.FC = () => {
     setInputValue(newInputValue);
   };
 
-  const checkIsValidIndex = () => {
-    const index = parseInt(inputIndexValue, 10);
-    return index >= 0 && index < linkedList.current.getSize();
-  };
-
   const onIndexChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const newInputValue = evt.target.value;
     setInputIndexValue(newInputValue);
   };
 
-  const updateListItems = async () => {
+  const checkIsValidIndex = () => {
+    const index = parseInt(inputIndexValue, 10);
+    return index >= 0 && index < linkedList.current.getSize();
+  };
+
+  const updateListItems = () => {
     setListItems(linkedList.current.toArray());
   };
 
@@ -98,7 +99,7 @@ export const ListPage: React.FC = () => {
   };
 
   const commonIndexLogic = async (
-    actions: () => void,
+    listActions: () => void,
     index: number,
     operation: Operations,
     smallCirclePosition: Positions
@@ -122,9 +123,12 @@ export const ListPage: React.FC = () => {
       setListItems((prev) => prev.map((item, i) => (i === index ? "" : item)));
     }
     await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
-    actions();
+    listActions();
+    if (operation === Operations.InsertAtIndex) {
+      setModifiedIndex(index);
+    }
     setSmallCircleIndex(undefined);
-    setModifiedIndex(index);
+
     updateListItems();
 
     await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
@@ -152,7 +156,7 @@ export const ListPage: React.FC = () => {
 
   const addToTail = async () => {
     setCurrentElement(inputValue);
-    commonLogic(
+    await commonLogic(
       () => {
         linkedList.current.append(inputValue);
       },
@@ -323,40 +327,48 @@ export const ListPage: React.FC = () => {
               : ElementStates.Default;
 
           return (
-            <Circle
-              key={index}
-              index={index}
-              letter={item || ""}
-              state={currentState}
-              head={
-                smallCirclePosition === Positions.Top &&
-                smallCircleIndex === index ? (
-                  <Circle
-                    letter={currentElement}
-                    state={ElementStates.Changing}
-                    isSmall
-                  />
-                ) : index === 0 ? (
-                  "head"
-                ) : (
-                  ""
-                )
-              }
-              tail={
-                smallCirclePosition === Positions.Bottom &&
-                smallCircleIndex === index ? (
-                  <Circle
-                    letter={currentElement}
-                    state={ElementStates.Changing}
-                    isSmall
-                  />
-                ) : index === listItems.length - 1 ? (
-                  "tail"
-                ) : (
-                  ""
-                )
-              }
-            />
+            <div className={s.list} key={index}>
+              <Circle
+                index={index}
+                letter={item || ""}
+                state={currentState}
+                head={
+                  smallCirclePosition === Positions.Top &&
+                  smallCircleIndex === index ? (
+                    <Circle
+                      letter={currentElement}
+                      state={ElementStates.Changing}
+                      isSmall
+                    />
+                  ) : index === 0 ? (
+                    "head"
+                  ) : (
+                    ""
+                  )
+                }
+                tail={
+                  smallCirclePosition === Positions.Bottom &&
+                  smallCircleIndex === index ? (
+                    <Circle
+                      letter={currentElement}
+                      state={ElementStates.Changing}
+                      isSmall
+                    />
+                  ) : index === listItems.length - 1 ? (
+                    "tail"
+                  ) : (
+                    ""
+                  )
+                }
+              />
+              {index < listItems.length - 1 ? (
+                <ArrowIcon
+                  fill={changingIndex! - 1 >= index ? "#d252e1" : undefined}
+                />
+              ) : (
+                ""
+              )}
+            </div>
           );
         })}
       </div>

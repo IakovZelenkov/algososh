@@ -22,9 +22,7 @@
 .items {
   display: flex;
   justify-content: center;
-  gap: 64px 16px;
-  margin-top: 48px;
-
+  gap: 48px 16px;
   flex-wrap: wrap;
 }
 
@@ -34,4 +32,12 @@
 
 .flexGrow {
   flex-grow: 1;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
