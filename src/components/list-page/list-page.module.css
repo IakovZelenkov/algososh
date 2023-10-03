@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  width: 952px;
+  flex-direction: column;
+  gap: 90px;
+  margin: 90px auto;
+}
+
+.menu {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.wrapper {
+  display: flex;
+  min-width: 952px;
+  gap: 12px;
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+  gap: 48px 16px;
+  flex-wrap: wrap;
+}
+
+.input {
+  max-width: 172px;
+}
+
+.flexGrow {
+  flex-grow: 1;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}

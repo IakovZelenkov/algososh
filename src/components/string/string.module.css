@@ -1,16 +1,18 @@
 .container {
   display: flex;
-  flex-direction: column;
+  gap: 12px;
   max-width: 522px;
   margin: 0 auto;
-}
-
-.wrapper {
-  display: flex;
-  gap: 12px;
 }
 
 .text {
   text-align: left;
   padding: 4px 16px;
+}
+
+.letters {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 120px auto;
 }

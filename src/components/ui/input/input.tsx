@@ -5,6 +5,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   placeholder?: string;
   extraClass?: string;
   isLimitText?: boolean;
+  isLoader?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -13,6 +14,9 @@ export const Input: React.FC<InputProps> = ({
   type = "text",
   maxLength,
   max,
+  min,
+  isLoader = false,
+  disabled,
   isLimitText = false,
   ...rest
 }) => {
@@ -28,7 +32,9 @@ export const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         type={type}
         maxLength={maxLength}
+        min={min}
         max={max}
+        disabled={isLoader || disabled}
         {...rest}
       />
       {isLimitText && (

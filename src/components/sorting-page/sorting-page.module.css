@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  max-width: 1200px;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  margin: 48px auto;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+}
+
+.radioInputs {
+  display: flex;
+  gap: 40px;
+  margin-right: 52px;
+}
+
+.directionButtons {
+  display: flex;
+  gap: 12px;
+  margin-right: 80px;
+}
+
+.columns {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.arrayButtons {
+  display: flex;
+  gap: 12px;
+}
