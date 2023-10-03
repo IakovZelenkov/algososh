@@ -26,14 +26,14 @@ export const SortingPage: React.FC = () => {
     if (sortMethod === "Пузырек") {
       await bubbleSort(
         randomArray,
-        setElementStates,
-        direction === Direction.Ascending ? "Ascending" : "Descending"
+        direction === Direction.Ascending ? "Ascending" : "Descending",
+        setElementStates
       );
     } else {
       await selectionSort(
         randomArray,
-        setElementStates,
-        direction === Direction.Ascending ? "Ascending" : "Descending"
+        direction === Direction.Ascending ? "Ascending" : "Descending",
+        setElementStates
       );
     }
 
