@@ -2,6 +2,7 @@ export const SELECTORS = {
   input: '[data-cy="input"]',
   button: '[data-cy="button"]',
   circle: "[class*=circle_circle]",
+  circleIndex: "[class*=circle_index]",
 };
 
 export const STYLES = {

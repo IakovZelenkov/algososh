@@ -52,6 +52,7 @@ export const FibonacciPage: React.FC = () => {
           value={inputValue}
           isLoader={isLoading}
           type={"number"}
+          data-cy="input"
         />
         <Button
           text="Рассчитать"
@@ -62,6 +63,7 @@ export const FibonacciPage: React.FC = () => {
           }
           onClick={onButtonClick}
           isLoader={isLoading}
+          data-cy="button"
         />
       </div>
       <div className={s.wrapper}>

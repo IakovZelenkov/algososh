@@ -63,12 +63,7 @@ export const StringComponent: React.FC = () => {
       </div>
       <div className={s.letters}>
         {letters.map((letter, index) => (
-          <Circle
-            key={index}
-            letter={letter}
-            state={elementStates[index]}
-            data-cy={`circle-${index}`}
-          />
+          <Circle key={index} letter={letter} state={elementStates[index]} />
         ))}
       </div>
     </SolutionLayout>

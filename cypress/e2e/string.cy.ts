@@ -48,6 +48,7 @@ describe("Компонент String", () => {
     cy.get(SELECTORS.button).should("not.be.disabled");
     cy.get(SELECTORS.button).click();
     cy.get(SELECTORS.button).should("be.disabled");
+    cy.get(SELECTORS.input).should("be.disabled");
 
     cy.get(SELECTORS.circle).should("have.length", 5);
 
@@ -61,5 +62,8 @@ describe("Компонент String", () => {
           .should("have.css", "border", circleData.style);
       });
     });
+
+    cy.get(SELECTORS.input).should("not.be.disabled");
+    cy.get(SELECTORS.button).should("be.disabled");
   });
 });
