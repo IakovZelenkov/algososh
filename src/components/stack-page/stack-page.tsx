@@ -65,12 +65,14 @@ export const StackPage: React.FC = () => {
               isLimitText={true}
               maxLength={4}
               value={inputValue}
+              data-cy="input"
             />
             <Button
               text="Добавить"
               onClick={onPushButtonClick}
               isLoader={activeLoadingButton === "Добавить"}
               disabled={inputValue === ""}
+              data-cy="add-button"
             />
 
             <Button
@@ -78,12 +80,14 @@ export const StackPage: React.FC = () => {
               onClick={onPopButtonClick}
               isLoader={activeLoadingButton === "Удалить"}
               disabled={stackItems.length === 0}
+              data-cy="delete-button"
             />
           </div>
           <Button
             text="Очистить"
             onClick={onClearButtonClick}
             disabled={stackItems.length === 0}
+            data-cy="clear-button"
           />
         </div>
         <div className={s.items}>

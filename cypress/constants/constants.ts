@@ -1,6 +1,10 @@
 export const SELECTORS = {
   input: '[data-cy="input"]',
   button: '[data-cy="button"]',
+  addButton: '[data-cy="add-button"]',
+  deleteButton: '[data-cy="delete-button"]',
+  clearButton: '[data-cy="clear-button"]',
+  circleContent: "[class*=circle_content]",
   circle: "[class*=circle_circle]",
   circleIndex: "[class*=circle_index]",
 };

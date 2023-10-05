@@ -38,18 +38,29 @@ describe("Компонент String", () => {
     cy.url().should("eq", "http://localhost:3000/recursion");
   });
 
-  it("кнопка должна быть выключена, если инпут пустой", () => {
+  it("кнопка должна быть заблокирована, если инпут пустой", () => {
     cy.get(SELECTORS.input).should("have.value", "");
     cy.get(SELECTORS.button).should("be.disabled");
   });
 
-  it("корректно работает алгоритм разворота строки", () => {
+  it("корректно работает блокирование и разблокирование кнопки", () => {
     cy.get(SELECTORS.input).type("hello");
     cy.get(SELECTORS.button).should("not.be.disabled");
     cy.get(SELECTORS.button).click();
     cy.get(SELECTORS.button).should("be.disabled");
-    cy.get(SELECTORS.input).should("be.disabled");
+    cy.get(SELECTORS.button).should("be.disabled");
+  });
 
+  it("корректно работает блокирование и разблокирование инпута", () => {
+    cy.get(SELECTORS.input).type("hello");
+    cy.get(SELECTORS.button).click();
+    cy.get(SELECTORS.input).should("be.disabled");
+    cy.get(SELECTORS.input).should("not.be.disabled");
+  });
+
+  it("корректно работает алгоритм разворота строки", () => {
+    cy.get(SELECTORS.input).type("hello");
+    cy.get(SELECTORS.button).click();
     cy.get(SELECTORS.circle).should("have.length", 5);
 
     STEPS_DATA.forEach((stepData, stepIndex) => {
@@ -62,8 +73,5 @@ describe("Компонент String", () => {
           .should("have.css", "border", circleData.style);
       });
     });
-
-    cy.get(SELECTORS.input).should("not.be.disabled");
-    cy.get(SELECTORS.button).should("be.disabled");
   });
 });

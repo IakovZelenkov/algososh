@@ -16,17 +16,28 @@ describe("Компонент Fibonacci", () => {
     cy.url().should("eq", "http://localhost:3000/fibonacci");
   });
 
-  it("кнопка должна быть выключена, если инпут пустой", () => {
+  it("кнопка должна быть заблокирована, если инпут пустой", () => {
     cy.get(SELECTORS.input).should("have.value", "");
     cy.get(SELECTORS.button).should("be.disabled");
   });
 
-  it("корректно работает алгоритм фибоначчи", () => {
-    cy.get(SELECTORS.input).type("5");
+  it("корректно работает блокирование и разблокирование кнопки", () => {
+    cy.get(SELECTORS.input).type("3");
     cy.get(SELECTORS.button).should("not.be.disabled");
     cy.get(SELECTORS.button).click();
     cy.get(SELECTORS.button).should("be.disabled");
+  });
+
+  it("корректно работает блокирование и разблокирование инпута", () => {
+    cy.get(SELECTORS.input).type("3");
+    cy.get(SELECTORS.button).click();
     cy.get(SELECTORS.input).should("be.disabled");
+    cy.get(SELECTORS.input).should("not.be.disabled");
+  });
+
+  it("корректно работает алгоритм фибоначчи", () => {
+    cy.get(SELECTORS.input).type("5");
+    cy.get(SELECTORS.button).click();
 
     STEPS_DATA.forEach((stepData, stepIndex) => {
       if (stepIndex !== 0) cy.wait(SHORT_DELAY_IN_MS);
@@ -43,8 +54,5 @@ describe("Компонент Fibonacci", () => {
           .should("contain.text", circleIndex);
       });
     });
-
-    cy.get(SELECTORS.button).should("not.be.disabled");
-    cy.get(SELECTORS.input).should("not.be.disabled");
   });
 });
