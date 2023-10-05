@@ -1,5 +1,6 @@
 import { ElementStates } from "../../types/element-states";
 import { Dispatch, SetStateAction } from "react";
+import { DELAY_IN_MS } from "../../constants/delays";
 
 export const reverseString = async (
   array: string[],
@@ -14,7 +15,7 @@ export const reverseString = async (
       elementStates[start] = ElementStates.Changing;
       elementStates[end] = ElementStates.Changing;
       setElementStates([...elementStates]);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, DELAY_IN_MS));
     }
 
     [array[start], array[end]] = [array[end], array[start]];

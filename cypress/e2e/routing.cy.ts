@@ -1,46 +1,58 @@
+const ROUTES = [
+  {
+    path: "/",
+    expectedUrl: "http://localhost:3000/",
+    selector: "h1",
+    content: "МБОУ АЛГОСОШ",
+  },
+  {
+    path: "/recursion",
+    expectedUrl: "http://localhost:3000/recursion",
+    selector: "h3",
+    content: "Строка",
+  },
+  {
+    path: "/fibonacci",
+    expectedUrl: "http://localhost:3000/fibonacci",
+    selector: "h3",
+    content: "Последовательность Фибоначчи",
+  },
+  {
+    path: "/sorting",
+    expectedUrl: "http://localhost:3000/sorting",
+    selector: "h3",
+    content: "Сортировка массива",
+  },
+  {
+    path: "/stack",
+    expectedUrl: "http://localhost:3000/stack",
+    selector: "h3",
+    content: "Стек",
+  },
+  {
+    path: "/queue",
+    expectedUrl: "http://localhost:3000/queue",
+    selector: "h3",
+    content: "Очередь",
+  },
+  {
+    path: "/list",
+    expectedUrl: "http://localhost:3000/list",
+    selector: "h3",
+    content: "Связный список",
+  },
+];
+
 describe("Навигация приложения", () => {
   beforeEach(() => {
     cy.visit("/");
   });
 
-  it("должна открыться главная страница", () => {
-    cy.url().should("eq", "http://localhost:3000/");
-    cy.get("h1").should("contain", "МБОУ АЛГОСОШ");
-  });
-
-  it("должна открыться страница строка", () => {
-    cy.visit("/recursion");
-    cy.url().should("eq", "http://localhost:3000/recursion");
-    cy.get("h3").should("contain", "Строка");
-  });
-
-  it("должна открыться страница фибоначчи", () => {
-    cy.visit("/fibonacci");
-    cy.url().should("eq", "http://localhost:3000/fibonacci");
-    cy.get("h3").should("contain", "Последовательность Фибоначчи");
-  });
-
-  it("должна открыться страница сортировка", () => {
-    cy.visit("/sorting");
-    cy.url().should("eq", "http://localhost:3000/sorting");
-    cy.get("h3").should("contain", "Сортировка массива");
-  });
-
-  it("должна открыться страница стек", () => {
-    cy.visit("/stack");
-    cy.url().should("eq", "http://localhost:3000/stack");
-    cy.get("h3").should("contain", "Стек");
-  });
-
-  it("должна открыться страница очередь", () => {
-    cy.visit("/queue");
-    cy.url().should("eq", "http://localhost:3000/queue");
-    cy.get("h3").should("contain", "Очередь");
-  });
-
-  it("должна открыться страница Связный список", () => {
-    cy.visit("/list");
-    cy.url().should("eq", "http://localhost:3000/list");
-    cy.get("h3").should("contain", "Связный список");
+  ROUTES.forEach((route) => {
+    it(`должна открыться страница ${route.content}`, () => {
+      cy.visit(route.path);
+      cy.url().should("eq", route.expectedUrl);
+      cy.get(route.selector).should("contain", route.content);
+    });
   });
 });

@@ -6,6 +6,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { reverseString } from "./stringUtils";
+import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
   const [letters, setLetters] = useState<string[]>([]);
@@ -32,7 +33,7 @@ export const StringComponent: React.FC = () => {
 
     const newLetters = inputValue.split("");
     setLetters(newLetters);
-
+    await new Promise((resolve) => setTimeout(resolve, DELAY_IN_MS));
     await reverseString(newLetters, elementStates, setElementStates);
     setLetters([...newLetters]);
 
@@ -50,17 +51,24 @@ export const StringComponent: React.FC = () => {
           isLimitText={true}
           value={inputValue}
           isLoader={isLoading}
+          data-cy="input"
         />
         <Button
           text="Развернуть"
           disabled={!inputValue || inputValue === originalInputValue}
           onClick={onButtonClick}
           isLoader={isLoading}
+          data-cy="button"
         />
       </div>
       <div className={s.letters}>
         {letters.map((letter, index) => (
-          <Circle key={index} letter={letter} state={elementStates[index]} />
+          <Circle
+            key={index}
+            letter={letter}
+            state={elementStates[index]}
+            data-cy={`circle-${index}`}
+          />
         ))}
       </div>
     </SolutionLayout>
