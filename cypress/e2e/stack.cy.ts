@@ -3,7 +3,10 @@ import { SELECTORS, STYLES } from "../constants/constants";
 
 const STEPS_DATA = ["1", "2", "3", "4", "5"];
 
-const verifyCirclesAfterDelete = (expectedLength, targetIndex) => {
+const verifyCirclesAfterDelete = (
+  expectedLength: number,
+  targetIndex: number
+) => {
   cy.get(SELECTORS.circleContent)
     .should("have.length", expectedLength)
     .each((circleContent, circleIndex) => {
@@ -47,7 +50,7 @@ describe("Компонент Stack", () => {
       });
   });
 
-  it("кнопка 'удалить' должна быть разблокирована, если стек  не пустой", () => {
+  it("кнопка 'удалить' должна быть разблокирована, если стек не пустой", () => {
     cy.get(SELECTORS.input).type("test");
     cy.get(SELECTORS.addButton).click();
     cy.get(SELECTORS.circle)
@@ -79,6 +82,17 @@ describe("Компонент Stack", () => {
     cy.get(SELECTORS.input).type("test");
     cy.get(SELECTORS.addButton).click();
     cy.get(SELECTORS.input).should("contain", "");
+  });
+
+  it("корректно работает очистка стека", () => {
+    cy.get(SELECTORS.input).type("1");
+    cy.get(SELECTORS.addButton).click();
+    cy.wait(SHORT_DELAY_IN_MS);
+    cy.get(SELECTORS.input).type("2");
+    cy.get(SELECTORS.addButton).click();
+    cy.wait(SHORT_DELAY_IN_MS);
+    cy.get(SELECTORS.clearButton).click();
+    cy.get(SELECTORS.circle).should("not.exist");
   });
 
   it("корректно работает добавление элементов в стек", () => {

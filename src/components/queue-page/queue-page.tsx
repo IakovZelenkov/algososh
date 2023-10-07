@@ -81,6 +81,7 @@ export const QueuePage: React.FC = () => {
               isLimitText={true}
               maxLength={4}
               value={inputValue}
+              data-cy="input"
             />
             <Button
               text="Добавить"
@@ -93,6 +94,7 @@ export const QueuePage: React.FC = () => {
                 queue.current.getTail() === MAX_QUEUE_LENGTH - 1 ||
                 queue.current.isFull()
               }
+              data-cy="add-button"
             />
 
             <Button
@@ -102,6 +104,7 @@ export const QueuePage: React.FC = () => {
               }}
               isLoader={activeLoadingButton === "Удалить"}
               disabled={queue.current.isEmpty()}
+              data-cy="delete-button"
             />
           </div>
           <Button
@@ -110,6 +113,7 @@ export const QueuePage: React.FC = () => {
               onClearButtonClick(Operations.Clear);
             }}
             disabled={lastOperation === Operations.Clear}
+            data-cy="clear-button"
           />
         </div>
         <div className={s.items}>
