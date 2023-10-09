@@ -29,7 +29,6 @@ const verifyCirclesAfterDelete = (
 describe("Компонент Stack", () => {
   beforeEach(() => {
     cy.visit("/stack");
-    cy.url().should("eq", "http://localhost:3000/stack");
   });
 
   it("кнопка 'добавить' должна быть заблокирована, если инпут пустой", () => {

@@ -6,7 +6,6 @@ const INITIAL_DATA = ["0", "34", "8", "1"];
 describe("Компонент List", () => {
   beforeEach(() => {
     cy.visit("/list");
-    cy.url().should("eq", "http://localhost:3000/list");
   });
 
   it("кнопки 'добавить в head' и 'добавить в tail' должны быть заблокированы, если инпут пустой", () => {

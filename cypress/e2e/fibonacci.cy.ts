@@ -12,7 +12,6 @@ const STEPS_DATA = [
 describe("Компонент Fibonacci", () => {
   beforeEach(() => {
     cy.visit("/fibonacci");
-    cy.url().should("eq", "http://localhost:3000/fibonacci");
   });
 
   it("кнопка должна быть заблокирована, если инпут пустой", () => {

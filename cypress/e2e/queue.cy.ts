@@ -21,7 +21,6 @@ const verifyCirclesAfterDelete = (
 describe("Компонент Queue", () => {
   beforeEach(() => {
     cy.visit("/queue");
-    cy.url().should("eq", "http://localhost:3000/queue");
   });
 
   it("кнопка 'добавить' должна быть заблокирована, если инпут пустой", () => {

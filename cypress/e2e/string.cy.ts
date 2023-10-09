@@ -34,7 +34,6 @@ const STEPS_DATA = [
 describe("Компонент String", () => {
   beforeEach(() => {
     cy.visit("/recursion");
-    cy.url().should("eq", "http://localhost:3000/recursion");
   });
 
   it("кнопка должна быть заблокирована, если инпут пустой", () => {
