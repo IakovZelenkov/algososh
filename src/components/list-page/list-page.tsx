@@ -10,7 +10,6 @@ import { LinkedList } from "./listUtils";
 import { Operations, Positions } from "../../types/list-types";
 import { INITIAL_LIST } from "../../constants/constants";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
-
 export const ListPage: React.FC = () => {
   const linkedList = useRef(new LinkedList<string>());
   const [inputValue, setInputValue] = useState("");
@@ -35,6 +34,7 @@ export const ListPage: React.FC = () => {
   >(undefined);
 
   useEffect(() => {
+    linkedList.current = new LinkedList<string>();
     listItems.forEach((item) => linkedList.current.append(item));
   }, []);
 
