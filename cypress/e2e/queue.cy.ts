@@ -87,10 +87,8 @@ describe("Компонент Queue", () => {
   it("корректно работает очистка очереди", () => {
     cy.get(SELECTORS.input).type("1");
     cy.get(SELECTORS.addButton).click();
-    cy.wait(SHORT_DELAY_IN_MS);
     cy.get(SELECTORS.input).type("2");
     cy.get(SELECTORS.addButton).click();
-    cy.wait(SHORT_DELAY_IN_MS);
     cy.get(SELECTORS.clearButton).click();
 
     cy.get(SELECTORS.circleLetter)
@@ -104,7 +102,6 @@ describe("Компонент Queue", () => {
 
   it("корректно работает добавление элементов в очередь", () => {
     STEPS_DATA.forEach((stepData, stepIndex) => {
-      if (stepIndex !== 0) cy.wait(SHORT_DELAY_IN_MS);
       cy.get(SELECTORS.input).clear();
       cy.get(SELECTORS.input).type(stepData);
       cy.get(SELECTORS.addButton).click();
@@ -141,15 +138,12 @@ describe("Компонент Queue", () => {
   });
 
   it("корректно работает удаление элементов из очереди", () => {
-    STEPS_DATA.forEach((stepData, stepIndex) => {
-      if (stepIndex !== 0) cy.wait(SHORT_DELAY_IN_MS);
+    STEPS_DATA.forEach((stepData) => {
       cy.get(SELECTORS.input).clear();
       cy.get(SELECTORS.input).type(stepData);
       cy.get(SELECTORS.addButton).click();
     });
-    cy.wait(SHORT_DELAY_IN_MS);
 
-    cy.wait(SHORT_DELAY_IN_MS);
     cy.get(SELECTORS.deleteButton).click();
     verifyCirclesAfterDelete(0, 1);
 

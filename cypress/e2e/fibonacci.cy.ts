@@ -1,4 +1,3 @@
-import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 import { SELECTORS, STYLES } from "../constants/constants";
 
 const STEPS_DATA = [
@@ -40,8 +39,6 @@ describe("Компонент Fibonacci", () => {
     cy.get(SELECTORS.button).click();
 
     STEPS_DATA.forEach((stepData, stepIndex) => {
-      if (stepIndex !== 0) cy.wait(SHORT_DELAY_IN_MS);
-
       cy.get(SELECTORS.circle).should("have.length", stepData.length);
 
       stepData.forEach((expectedValue, circleIndex) => {

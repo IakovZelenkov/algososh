@@ -1,4 +1,3 @@
-import { DELAY_IN_MS } from "../../src/constants/delays";
 import { SELECTORS, STYLES } from "../constants/constants";
 
 const STEPS_DATA = [
@@ -64,8 +63,6 @@ describe("Компонент String", () => {
     cy.get(SELECTORS.circle).should("have.length", 5);
 
     STEPS_DATA.forEach((stepData, stepIndex) => {
-      if (stepIndex !== 0) cy.wait(DELAY_IN_MS);
-
       stepData.forEach((circleData, circleIndex) => {
         cy.get(SELECTORS.circle)
           .eq(circleIndex)
