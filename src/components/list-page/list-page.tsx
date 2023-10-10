@@ -10,7 +10,6 @@ import { LinkedList } from "./listUtils";
 import { Operations, Positions } from "../../types/list-types";
 import { INITIAL_LIST } from "../../constants/constants";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
-
 export const ListPage: React.FC = () => {
   const linkedList = useRef(new LinkedList<string>());
   const [inputValue, setInputValue] = useState("");
@@ -35,6 +34,7 @@ export const ListPage: React.FC = () => {
   >(undefined);
 
   useEffect(() => {
+    linkedList.current = new LinkedList<string>();
     listItems.forEach((item) => linkedList.current.append(item));
   }, []);
 
@@ -234,6 +234,7 @@ export const ListPage: React.FC = () => {
               maxLength={4}
               value={inputValue}
               disabled={isLoading}
+              data-cy="input"
             />
             <Button
               extraClass={s.flexGrow}
@@ -244,6 +245,7 @@ export const ListPage: React.FC = () => {
                 (isLoading && lastOperation !== Operations.AddToHead) ||
                 !inputValue
               }
+              data-cy="add-head-button"
             />
             <Button
               extraClass={s.flexGrow}
@@ -254,6 +256,7 @@ export const ListPage: React.FC = () => {
                 (isLoading && lastOperation !== Operations.AddToTail) ||
                 !inputValue
               }
+              data-cy="add-tail-button"
             />
             <Button
               extraClass={s.flexGrow}
@@ -266,6 +269,7 @@ export const ListPage: React.FC = () => {
                 (isLoading && lastOperation !== Operations.RemoveFromHead) ||
                 listItems.length === 0
               }
+              data-cy="delete-head-button"
             />
             <Button
               extraClass={s.flexGrow}
@@ -278,6 +282,7 @@ export const ListPage: React.FC = () => {
                 (isLoading && lastOperation !== Operations.RemoveFromTail) ||
                 listItems.length === 0
               }
+              data-cy="delete-tail-button"
             />
           </div>
           <div className={s.wrapper}>
@@ -288,6 +293,7 @@ export const ListPage: React.FC = () => {
               onChange={onIndexChange}
               value={inputIndexValue}
               disabled={isLoading}
+              data-cy="index-input"
             />
             <Button
               extraClass={s.flexGrow}
@@ -301,6 +307,7 @@ export const ListPage: React.FC = () => {
                 !checkIsValidIndex() ||
                 !inputValue
               }
+              data-cy="add-index-button"
             />
             <Button
               extraClass={s.flexGrow}
@@ -313,6 +320,7 @@ export const ListPage: React.FC = () => {
                 (isLoading && lastOperation !== Operations.RemoveAtIndex) ||
                 !checkIsValidIndex()
               }
+              data-cy="delete-index-button"
             />
           </div>
         </div>

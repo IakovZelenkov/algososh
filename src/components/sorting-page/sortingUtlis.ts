@@ -27,8 +27,8 @@ const swap = (
 
 export const bubbleSort = async (
   array: number[],
-  setElementStates: Dispatch<SetStateAction<ElementStates[]>>,
-  sortDirection: "Ascending" | "Descending"
+  sortDirection: "Ascending" | "Descending",
+  setElementStates?: Dispatch<SetStateAction<ElementStates[]>>
 ): Promise<void> => {
   const n = array.length;
   let newStates = new Array(n).fill(ElementStates.Default);
@@ -40,11 +40,13 @@ export const bubbleSort = async (
       newStates[j] = ElementStates.Changing;
       newStates[j + 1] = ElementStates.Changing;
 
-      setElementStates((prevStates) =>
-        prevStates.map((state, index) => newStates[index])
-      );
+      if (setElementStates) {
+        setElementStates((prevStates) =>
+          prevStates.map((state, index) => newStates[index])
+        );
 
-      await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+        await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+      }
 
       if (
         (sortDirection === "Ascending" && array[j] > array[j + 1]) ||
@@ -59,24 +61,26 @@ export const bubbleSort = async (
     }
 
     newStates[n - i - 1] = ElementStates.Modified;
-    setElementStates((prevStates) =>
-      prevStates.map((state, index) => newStates[index])
-    );
+    setElementStates &&
+      setElementStates((prevStates) =>
+        prevStates.map((state, index) => newStates[index])
+      );
 
     if (isSorted) break;
   }
 
-  setElementStates((prevStates) =>
-    prevStates.map((state, index) =>
-      state === ElementStates.Default ? ElementStates.Modified : state
-    )
-  );
+  setElementStates &&
+    setElementStates((prevStates) =>
+      prevStates.map((state, index) =>
+        state === ElementStates.Default ? ElementStates.Modified : state
+      )
+    );
 };
 
 export const selectionSort = async (
   array: number[],
-  setElementStates: Dispatch<SetStateAction<ElementStates[]>>,
-  sortDirection: "Ascending" | "Descending"
+  sortDirection: "Ascending" | "Descending",
+  setElementStates?: Dispatch<SetStateAction<ElementStates[]>>
 ): Promise<void> => {
   const n = array.length;
   let newStates = new Array(n).fill(ElementStates.Default);
@@ -84,13 +88,17 @@ export const selectionSort = async (
   for (let i = 0; i < n - 1; i++) {
     let selectedIndex = i;
     newStates[i] = ElementStates.Changing;
-    setElementStates([...newStates]);
+    if (setElementStates) {
+      setElementStates([...newStates]);
+    }
 
     for (let j = i + 1; j < n; j++) {
       newStates[j] = ElementStates.Changing;
-      setElementStates([...newStates]);
 
-      await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+      if (setElementStates) {
+        setElementStates([...newStates]);
+        await new Promise((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+      }
 
       const shouldSwap =
         (sortDirection === "Ascending" && array[j] < array[selectedIndex]) ||
@@ -101,7 +109,9 @@ export const selectionSort = async (
       }
 
       newStates[j] = ElementStates.Default;
-      setElementStates([...newStates]);
+      if (setElementStates) {
+        setElementStates([...newStates]);
+      }
     }
 
     if (selectedIndex !== i) {
@@ -109,9 +119,13 @@ export const selectionSort = async (
     }
 
     newStates[i] = ElementStates.Modified;
-    setElementStates([...newStates]);
+    if (setElementStates) {
+      setElementStates([...newStates]);
+    }
   }
 
   newStates[n - 1] = ElementStates.Modified;
-  setElementStates([...newStates]);
+  if (setElementStates) {
+    setElementStates([...newStates]);
+  }
 };
